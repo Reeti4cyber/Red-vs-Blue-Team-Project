@@ -62,20 +62,22 @@ nmap -sV -v 192.168.1.105
  
  Navigating through the _meet\_our\_team_ folder confirms there are three users, whose credentilas can be used to log on.
  
+ Each text file has a references to the _secret\_folder:_
  
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
 
-In a text document the blog directory we can see a 3rd potential username – Ryan, who would potentially have the highest level access as CEO:
+ Navigating through the _company\_blog_ folder confirms there are three users, whose credentilas can be used to log on.
+ 
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%206.png)
 
-
-
-
-
-
-The _meet\_our\_team_ folder confirms the three potential users, and each document references the _secret\_folder:_
-
-
-As we can see below, we will need Ashton&#39;s password to gain access to the secure hidden folder.
-
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
+To get an access to the &quot;_secret\_folder_&quot;, I tried entering the following url:
+ 
+```
+192.168.1.0.5/company_folders/secret_folder
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%210.png)
+ 
+ We need a password to gain access to the &quot;_secret\_folder_&quot;
+ 
 
