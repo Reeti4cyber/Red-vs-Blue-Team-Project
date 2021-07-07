@@ -31,3 +31,24 @@ netdiscover -r 192.168.1.0/24
 
 Capstone machine has an ip of 192.168.1.105.
  
+ ### **Navigating the Webserver:**
+
+As I got the ip of Capstone Vm, which is a webserver. I opened the webbrowser on the attacker machine(Kali) and accessed the webserver using  its  ip 192.168.1.105
+
+![alt-text](https://github.com/SamGeron/Red-Team-vs-Blue-Team/blob/main/images/Picture7.png)
+
+In a text document the blog directory we can see a 3rd potential username – Ryan, who would potentially have the highest level access as CEO:
+
+![alt-text](https://github.com/SamGeron/Red-Team-vs-Blue-Team/blob/main/images/Picture8.png)
+
+In the _company folders_ directory, we can see reference to a &quot;_secret\_folder_&quot; in ALL documents within this directory, which is now a target for this Penetration Test.
+
+![alt-text](https://github.com/SamGeron/Red-Team-vs-Blue-Team/blob/main/images/Picture9.png)
+
+The _meet\_our\_team_ folder confirms the three potential users, and each document references the _secret\_folder:_
+
+![alt-text](https://github.com/SamGeron/Red-Team-vs-Blue-Team/blob/main/images/Picture10.png)
+
+As we can see below, we will need Ashton&#39;s password to gain access to the secure hidden folder.
+
+![alt-text](https://github.com/SamGeron/Red-Team-vs-Blue-Team/blob/main/images/Picture11.png)
