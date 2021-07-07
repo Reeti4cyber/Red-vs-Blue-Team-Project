@@ -17,7 +17,7 @@ I used the netdiscover -r <subnet ip> command to discover the target ip. The sub
 ```
 netdiscover -r 192.168.1.0/24
 ```
-### **Following is the output:**
+#### **Following is the output:**
  
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%202.png)
  
@@ -33,22 +33,49 @@ Capstone machine has an ip of 192.168.1.105.
  
  ### **Navigating the Webserver:**
 
-As I got the ip of Capstone Vm, which is a webserver. I opened the webbrowser on the attacker machine(Kali) and accessed the webserver using  its  ip 192.168.1.105
-
+I used the nmap -sV -v 192.168.1.105 command to do a service and version scan on the webserver.
+```
+nmap -sV -v 192.168.1.105
+```
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%203.png)
+ 
+ That revealed the open ports on the webserver.
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%204.png)
+ 
+| Port | Service | Version |
+|:--:|:--:|:--:|
+| Port 22 | SSH | OpenSSH 7.6p1 |
+| Port 80 | HTTP | Apache httpd 2.4.29 |
+ 
+  #### **Locate the hidden directory on the Webserver:**
+
+ I opened the webbrowser on the attacker machine(Kali) and accessed the webserver using  its  ip 192.168.1.105.
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%205.png)
+
+ Navigating through the various folders, in the _company folders_ directory, I noticed the  reference to a &quot;_secret\_folder_&quot; in ALL documents within this directory,  which implies there is a folder called &quot;_secret\_folder_&quot; that I need to target.
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%207.png)
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%208.png)
+ 
+ Navigating through the _meet\_our\_team_ folder confirms there are three users, whose credentilas can be used to log on.
+ 
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
 
 In a text document the blog directory we can see a 3rd potential username – Ryan, who would potentially have the highest level access as CEO:
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%204.png)
 
-In the _company folders_ directory, we can see reference to a &quot;_secret\_folder_&quot; in ALL documents within this directory, which is now a target for this Penetration Test.
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%205.png)
+
+
 
 The _meet\_our\_team_ folder confirms the three potential users, and each document references the _secret\_folder:_
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%206.png)
+
 As we can see below, we will need Ashton&#39;s password to gain access to the secure hidden folder.
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%206.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
 
