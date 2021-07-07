@@ -101,6 +101,7 @@ hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-
 |:--:|:--:|
 | ashton| leopoldo | 
  
-
+I logged in the webserver using the above credentials.
+ 
  
 
