@@ -96,8 +96,11 @@ hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-
  
  Found the following login credentials for the user ashton:
  
- ```
-**ashton:leopoldo**
-```
+
+| Username | Passwd| 
+|:--:|:--:|
+| ashton| leopoldo | 
+ 
+
  
 
