@@ -76,7 +76,7 @@ To get an access to the &quot;_secret\_folder_&quot;, I tried entering the follo
 ```
 192.168.1.0.5/company_folders/secret_folder
 ```
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%210.png)
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2010.png)
  
  We need a password to gain access to the &quot;_secret\_folder_&quot;
  
