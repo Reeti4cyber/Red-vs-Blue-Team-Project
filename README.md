@@ -50,7 +50,7 @@ nmap -sV -v 192.168.1.105
  
   #### **Locate the hidden directory on the Webserver:**
 
- I opened the webbrowser on the attacker machine(Kali) and accessed the webserver using  its  ip 192.168.1.105.
+ I opened the webbrowser on the attacker machine(Kali) and accessed the webserver using  its  ip **192.168.1.105**.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%205.png)
 
@@ -82,11 +82,11 @@ I need a password to gain access to the &quot;_secret\_folder_&quot;. To get the
  
   #### **Brute Force the password:**
  
- Downloaded the rockyou.txt file. 
+ Downloaded the **rockyou.txt** file. 
  
 ![alt-text]( https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Imagerockyou.png)
  
- and used the hydra command to Brute Force the password.
+ and used the **hydra** command to Brute Force the password.
  
 ```
 hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-get "/company_folders/secret_folder"
@@ -94,5 +94,7 @@ hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/ashtonpsswd.png)
  
+ Found the following login credentials for the user ashton:
+ **ashton:leopoldo**
  
 
