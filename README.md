@@ -10,9 +10,10 @@ I used the command ip a to know the ip subnet.
 ```
 ip a
 ```
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image 1.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%201.png)
 
-I used the netdiscover -r <subnet ip> command to discover the target ip. The subnet ip is 192.168.1.0/24:
+
+I used the netdiscover -r <subnet ip> command to discover the target ip. The subnet ip is 192.168.1.0/24.
 ```
 netdiscover -r 192.168.1.0/24
 ```
