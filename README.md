@@ -36,6 +36,7 @@ netdiscover -r 192.168.1.0/24
 | IP | Machine |
 |:-------------:|:-------------:|
 | 192.168.1.1 | Hyper-V, Gateway IP |
+| 192.168.1.90 | kali Machine |
 | 192.168.1.105 | Capstone, target machine |
 | 192.168.1.100 | ELK server |
 
