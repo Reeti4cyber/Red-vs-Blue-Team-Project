@@ -2,18 +2,28 @@
 
 # **RED TEAM - Penetration Test**
 
-## **EXPLOITATION**
-As the Red Team, I attacked a vulnerable Capstone VM within my environment, ultimately gaining root access to the machine. Entire attack was conducted using the Kali Machine.
+
+As the Red Team, I gone through the five stages of the Pentesting. I attacked a vulnerable Capstone VM within my environment, ultimately gaining root access to the machine. Entire attack was conducted using the Kali Machine.
+
+The five pentesting stages:
+
+- Planning and Reconnaissance
+- Scanning
+- Exploitation
+- Post Exploitation
+- Reporting
+
+## **Stage 1 Planning and Reconnaissance **
 
 ### **Discover IP address of Linux web server:**
-I used the command ip a to know the ip subnet.
+I used the command ``ip a`` to know the ip subnet.
 ```
 ip a
 ```
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%201.png)
 
 
-I used the netdiscover -r <subnet ip> command to discover the target ip. The subnet ip is 192.168.1.0/24.
+I used the ``netdiscover -r <subnet ip>`` command to discover the target ip. The subnet ip was ``192.168.1.0/24``.
 ```
 netdiscover -r 192.168.1.0/24
 ```
@@ -26,12 +36,15 @@ netdiscover -r 192.168.1.0/24
 | IP | Machine |
 |:-------------:|:-------------:|
 | 192.168.1.1 | Hyper-V, Gateway IP |
+| 192.168.1.90 | kali Machine |
 | 192.168.1.105 | Capstone, target machine |
 | 192.168.1.100 | ELK server |
 
-Capstone machine has an ip of 192.168.1.105.
+Capstone machine had an ip of 192.168.1.105.
  
- ### **Navigating the Webserver:**
+## **Stage 2 Scanning **
+
+### **Navigating the Webserver:**
  
   #### **Service and Version Scan:**
 
@@ -59,7 +72,7 @@ nmap -sV -v 192.168.1.105
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%205.png)
 
- Navigating through the various folders, in the _company folders_ directory, I noticed the  reference to a &quot;_secret\_folder_&quot; in ALL documents within this directory,  which implies there is a folder called &quot;_secret\_folder_&quot; that I need to target.
+ Navigating through the various folders, in the _company folders_ directory, I noticed the  reference to a &quot;_secret\_folder_&quot; in ALL documents within this directory,  which implies there was a folder called &quot;_secret\_folder_&quot; that I need to target.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%207.png)
  
@@ -67,11 +80,11 @@ nmap -sV -v 192.168.1.105
  
  Navigating through the _meet\_our\_team_ folder confirms there are three users, whose credentilas can be used to log on.
  
- Each text file has a references to the _secret\_folder:_
+ Each text file had a references to the _secret\_folder:_
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%209.png)
 
- Navigating through the _company\_blog_ folder confirms there are three users, whose credentilas can be used to log on.
+ Navigating through the _company\_blog_ folder confirms there were three users, whose credentilas can be used to log on.
  
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%206.png)
@@ -87,7 +100,7 @@ I need a password to gain access to the &quot;_secret\_folder_&quot;. To get the
  
   #### **Brute Force the password:**
  
- Downloaded the **rockyou.txt** file. 
+I downloaded the **rockyou.txt** file. 
  
 ![alt-text]( https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Imagerockyou.png)
  
@@ -99,7 +112,7 @@ hydra -l ashton -P ./root/Downloads/rockyou.txt -s 80 -f -vV 192.168.1.105 http-
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/ashtonpsswd.png)
  
- Found the following login credentials for the user ashton:
+ Found the following login credentials for the user ``ashton``:
  
 
 | Username | Passwd| 
@@ -118,7 +131,7 @@ I logged in the webserver using the above credentials. And gained access to the 
  
  This file had **CEO Ryan's** hashed password.And instructions to connect to the companies webdav server.
  
- I used **Crack Station** to crack Ryan's password.
+ I used **Crack Station** to crack Ryan's hashed password.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2015.png)
  
@@ -134,12 +147,14 @@ I logged in the webserver using the above credentials. And gained access to the 
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2016.png)
  
- There is file called **passwddav** with the following contects: 
+ There was a file called **passwddav** with the following contents: 
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2017.png)
   
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2018.png)
- 
+
+## **Stage 3 Exploitation **
+
  ### **PHP Reverse Shell payload:**
  
 #### **Msfvenom**
@@ -205,7 +220,9 @@ This command will launch Metasploit's command-line interface.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2026.png)
  
- ### **Finding the Flag**
+## **Stage 4 Post Exploitation **
+
+### **Finding the Flag**
  
  Meterpreter is on the target machine so I got an access to the machine and I used the following command to locate the **Flag1**
  
