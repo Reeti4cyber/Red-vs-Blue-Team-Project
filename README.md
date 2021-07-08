@@ -18,7 +18,7 @@ The five pentesting stages:
 - Post Exploitation
 - Reporting
 
-## **Stage 1 Planning and Reconnaissance **
+## Stage 1 Planning and Reconnaissance
 
 ### **Discover IP address of Linux web server:**
 I used the command ``ip a`` to know the ip subnet.
@@ -47,7 +47,7 @@ netdiscover -r 192.168.1.0/24
 
 Capstone machine had an ip of 192.168.1.105.
  
-## **Stage 2 Scanning **
+##Stage 2 Scanning 
 
 ### **Navigating the Webserver:**
  
@@ -158,7 +158,7 @@ I logged in the webserver using the above credentials. And gained access to the 
   
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2018.png)
 
-## **Stage 3 Exploitation **
+##Stage 3 Exploitation
 
  ### **PHP Reverse Shell payload:**
  
@@ -225,7 +225,7 @@ This command will launch Metasploit's command-line interface.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2026.png)
  
-## **Stage 4 Post Exploitation **
+##Stage 4 Post Exploitation
 
 ### **Finding the Flag**
  
@@ -237,6 +237,8 @@ This command will launch Metasploit's command-line interface.
  It listed all the files in the root home directory.
  
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2027.png)
+ 
+ ### **Flag**
 
 Then I used the ``cat flag.txt`` command to read the contents of the flag.txt file.
  
