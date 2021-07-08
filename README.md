@@ -1,5 +1,10 @@
 # Red vs Blue Team Project
-
+ 
+ ## Network Diagram
+ 
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/RedVsBlue.png)
+ 
+ 
 # **RED TEAM - Penetration Test**
 
 
