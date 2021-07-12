@@ -250,8 +250,111 @@ Then I used the ``cat flag.txt`` command to read the contents of the flag.txt fi
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2030.png)
 
  
+ # **BLUE TEAM - SOC Analyst**
  
+ ## **Incident Analysis with Kibana**
  
+### Identify the offensive traffic.
+
+To Identify the traffic between my machine and the web machine, following query was entered in Kibana:
+
+```
+source.ip : 192.168.1.90 AND destination.ip:192.168.1.105  
+```
+
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d31.png)
  
+ - The  interaction occured at ``23:59 on July 11, 2021``
+ - The victim sent back the response as ``ok http.response.status_code 200``
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/q1.3.png)
+  
+  - The data is concerning from the Blue Team perspective is 
+ 
+
+### The request for the hidden directory. ###
+
+
+ To look at the interaction between these two machines, when attack happened and secret folder was found following command was executed:
+```
+source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/D32.png)
+ 
+   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/q2.4.png)
+  
+
+- There were `16,074` requests  made to this directory from `source ip 192.168.1.90` on July 11, 2021.
+- There is a `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
+- For these type of activities where the attacker tries to attack a hidden directory setting following alarms an mitigation strategies are recommended:
+ - #### Alarm 
+         - Set a low level alarm for more than 3 password failures.
+         - Set a critical alarm for more than 5 password failures. 
+  - #### System Hardening
+         - Remove the directory and file from the server and move it to some safe or offline location. 
+         - Remove all reference to this secret directory. 
+         - Create multi-factor authentication for all priviliged accounts.
+         - No password to be saved in the hashed format, add salt to the hashed password.
+
+### Identify the Brute Force Attack.
+
+ The brute force attack was conducted using `` Hydra``
+ To identify the brute force attack, following query was used in the Kibana:
+ 
+ ``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)" ```
+ 
+  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3hydra.png)
+   
+   There are 16,074  packets identified from ``Hydra``
+   
+   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3hydra2.png)
+ 
+
+How many requests were made in the brute-force attack?
+
+How many requests had the attacker made before discovering the correct password in this one?
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3battack.png)
+ 
+
+- For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
+ - #### Alarm 
+         - Set a critical alert if the user_agent.original value includes 'Hydra'.
+         - Set a critical alert in case any server returns '401 Unauthorized'. 
+  - #### System Hardening
+         - Drop the traffic from the IP address for a period of 1 hr that causes a server to return '401 Unauthorized', after the limit of 5 attempts.
+         - Black list the IP that has a request containing 'Hydra'  in user_agent.original'. 
+         - Create multi-factor authentication for all priviliged accounts.
+         - Lock out the user attempting to send such requests.
+
+### WebDav connection.
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdav.png)
+
+source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php" 
+
+source.ip : 192.168.1.90 AND url.path: "/webdav/passwd.dav"  
+
+source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201
+
+How many requests were made to this directory?
+Which file(s) were requested?
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdavshell.png)
+
+What kind of alarm would you set to detect such access in the future?
+Identify at least one way to harden the vulnerable machine that would mitigate this attack.
+
+source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201
+
+
+
+Identify the reverse shell and meterpreter traffic.
+
+To finish off the attack, you uploaded a PHP reverse shell and started a meterpreter shell session. Answer the following questions:
+
+Can you identify traffic from the meterpreter session?
+What kinds of alarms would you set to detect this behavior in the future?
+Identify at least one way to harden the vulnerable machine that would mitigate this attack.
  
 
