@@ -366,6 +366,11 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 
 ###  Identify the reverse shell and meterpreter traffic.
 
+Since the listener is set on our machine, our machine will become detination and the victim machine will become source. Hence the query that will use on Kibana to interpret meterpreter traffic is:
+```source.ip : 192.168.1.105 AND destination.ip: 192.168.1.90 AND destination.port:4444```
+
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/meterpreter.png)
+
 #### For these type of activities where the reverse shell is uploaded, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
  
