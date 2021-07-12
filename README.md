@@ -323,9 +323,12 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 
 #### For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
+ 
          - Set a critical alert if the user_agent.original value includes 'Hydra'.
          - Set a critical alert in case any server returns '401 Unauthorized'. 
-  - - #### System Hardening
+
+- - #### System Hardening
+  
          - Drop the traffic from the IP address for a period of 1 hr that causes a server to return '401 Unauthorized', after the limit of 5 attempts.
          - Black list the IP that has a request containing 'Hydra'  in user_agent.original'. 
          - Create multi-factor authentication for all priviliged accounts.
@@ -333,32 +336,48 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 
 ### WebDav connection.
 
+```source.ip : 192.168.1.90 AND url.path: "/webdav" ```
+
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdav.png)
 
-source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php" 
+- Total 7 requests were made to the webdav folder.
 
-source.ip : 192.168.1.90 AND url.path: "/webdav/passwd.dav"  
+```source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php" ```
 
-source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201
+- To listen for the activities on the victim machine, the shell.php file was requested.
+- Total of 2 requests were made to shell.php file.
 
-How many requests were made to this directory?
-Which file(s) were requested?
+```source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201```
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdavshell.png)
 
-What kind of alarm would you set to detect such access in the future?
-Identify at least one way to harden the vulnerable machine that would mitigate this attack.
-
-source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201
-
-
-
-Identify the reverse shell and meterpreter traffic.
-
-To finish off the attack, you uploaded a PHP reverse shell and started a meterpreter shell session. Answer the following questions:
-
-Can you identify traffic from the meterpreter session?
-What kinds of alarms would you set to detect this behavior in the future?
-Identify at least one way to harden the vulnerable machine that would mitigate this attack.
+#### For these type of activities where the attacker tries to access the webdav server, following alarms an mitigation strategies are recommended:
+ - - #### Alarm 
  
+         - Set an  alert in case any unauthorized machine/IP tries to access this directory.
+         - Set an threshhold to 1 for this alert. 
+
+- - #### System Hardening
+  
+         - This folder should not be accessible via webinterface.
+         - Configure firewall to restrict the access to this folder.
+         - All the files that have description of this folder should be moved to safer location and should be encrypted.
+
+
+###  Identify the reverse shell and meterpreter traffic.
+
+#### For these type of activities where the reverse shell is uploaded, following alarms an mitigation strategies are recommended:
+ - - #### Alarm 
+ 
+         - Set an  alert in case any traffic comes through lport 4444.
+         - Set an alert if any .php file is uploaded to a server. 
+         - Set an alert for any file that contains suspicious or malicious code.
+
+- - #### System Hardening
+  
+         - Screen all incoming traffic.
+         - Restrict uploading .php files.
+         - Setup automatic updates.
+         
+
 
