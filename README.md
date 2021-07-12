@@ -359,6 +359,7 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 
 - - #### System Hardening
   
+         - Disable weddav on the server.
          - This folder should not be accessible via webinterface.
          - Configure firewall to restrict the access to this folder.
          - All the files that have description of this folder should be moved to safer location and should be encrypted.
