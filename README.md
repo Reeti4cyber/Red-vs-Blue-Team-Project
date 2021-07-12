@@ -281,7 +281,7 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 ```
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/D32.png)
  
-   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/q2.4.png)
+   
   
 
 - There were `16,074` requests  made to this directory from `source ip 192.168.1.90` on July 11, 2021.
@@ -307,21 +307,25 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
    
    There are 16,074  packets identified from ``Hydra``
    
+   
+   
    ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3hydra2.png)
  
+- In the brute force attack 16,074 attempts were made.
+- Out of 16,074 attempts, 5 were successful.
+ 
+ Following query on the kibana returns the required result:
+ 
+``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  AND http.response.status_code : 301```
 
-How many requests were made in the brute-force attack?
-
-How many requests had the attacker made before discovering the correct password in this one?
-
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3battack.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3bfattack.png)
  
 
-- For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
- - #### Alarm 
+#### For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
+ - - #### Alarm 
          - Set a critical alert if the user_agent.original value includes 'Hydra'.
          - Set a critical alert in case any server returns '401 Unauthorized'. 
-  - #### System Hardening
+  - - #### System Hardening
          - Drop the traffic from the IP address for a period of 1 hr that causes a server to return '401 Unauthorized', after the limit of 5 attempts.
          - Black list the IP that has a request containing 'Hydra'  in user_agent.original'. 
          - Create multi-factor authentication for all priviliged accounts.
