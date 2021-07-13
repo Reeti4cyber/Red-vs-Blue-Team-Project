@@ -288,9 +288,14 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 - There is a `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
 - For these type of activities where the attacker tries to attack a hidden directory setting following alarms an mitigation strategies are recommended:
  - #### Alarm 
-         - Set a low level alarm for more than 3 password failures.
-         - Set a critical alarm for more than 5 password failures. 
+         - Set an alarm if there is an excessive amount of traffic to the hidden directory.
+         - Any sudden surge in traffic requesting hidden file should be alarming.
+         - Set an alarm if an unknown IP address is trying to access the hidden directory.
+
+
   - #### System Hardening
+  
+         - Turn off the directory listing.
          - Remove the directory and file from the server and move it to some safe or offline location. 
          - Remove all reference to this secret directory. 
          - Create multi-factor authentication for all priviliged accounts.
@@ -326,6 +331,8 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
  
          - Set a critical alert if the user_agent.original value includes 'Hydra'.
          - Set a critical alert in case any server returns '401 Unauthorized'. 
+         - Set a low level alarm for more than 3 password failures.
+         - Set a critical alarm for more than 5 password failures. 
 
 - - #### System Hardening
   
@@ -355,7 +362,7 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
  - - #### Alarm 
  
          - Set an  alert in case any unauthorized machine/IP tries to access this directory.
-         - Set an threshhold to 1 for this alert. 
+         - Set a threshold to 1 for this alert. 
 
 - - #### System Hardening
   
