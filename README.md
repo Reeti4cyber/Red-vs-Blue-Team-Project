@@ -281,13 +281,14 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 ```
  ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/D32.png)
  
-   
+  
   
 
 - There were `16,074` requests  made to this directory from `source ip 192.168.1.90` on July 11, 2021.
 - There is a `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
 - For these type of activities where the attacker tries to attack a hidden directory setting following alarms an mitigation strategies are recommended:
  - #### Alarm 
+ 
          - Set an alarm if there is an excessive amount of traffic to the hidden directory.
          - Any sudden surge in traffic requesting hidden file should be alarming.
          - Set an alarm if an unknown IP address is trying to access the hidden directory.
@@ -340,6 +341,8 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
          - Black list the IP that has a request containing 'Hydra'  in user_agent.original'. 
          - Create multi-factor authentication for all priviliged accounts.
          - Lock out the user attempting to send such requests.
+         - Set up fail2ban.conf and jail.conf files found in /etc folder.
+
 
 ### WebDav connection.
 
@@ -361,16 +364,20 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 #### For these type of activities where the attacker tries to access the webdav server, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
  
-         - Set an  alert in case any unauthorized machine/IP tries to access this directory.
+         - Set an  alert in case any unauthorized machine/IP tries to access to the webserver.
+         - Set an alert any user access the web server.
          - Set a threshold to 1 for this alert. 
+         - Set an  alert in case of any outbound traffic from the server.
 
 - - #### System Hardening
   
          - Disable weddav on the server.
          - This folder should not be accessible via webinterface.
          - Configure firewall to restrict the access to this folder.
+               - Add an access list of IP’s , users and devices.
+               - Add a rule to block unknown Ip’s and users.
          - All the files that have description of this folder should be moved to safer location and should be encrypted.
-
+         - Add a strong password and enforce multi factor authentication to access this server.
 
 ###  Identify the reverse shell and meterpreter traffic.
 
@@ -381,16 +388,22 @@ Since the listener is set on our machine, our machine will become detination and
 
 #### For these type of activities where the reverse shell is uploaded, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
- 
-         - Set an  alert in case any traffic comes through lport 4444.
-         - Set an alert if any .php file is uploaded to a server. 
+                 
          - Set an alert for any file that contains suspicious or malicious code.
+         - Set an alarm if any file is created or uploaded on the server.
+         - Set an alarm if any file with extension .php is detected or any the script is detected.
+         - Set an alarm if any new outbound connection to a new port is detected.
+
 
 - - #### System Hardening
   
          - Screen all incoming traffic.
          - Restrict uploading .php files.
          - Setup automatic updates.
+         - Create add/ deny list for IPs trying to     access port 4444.
+         - Add a rule to firewall to block traffic on any port from the tools such as Meterpreter. 
+
+
          
 
 
