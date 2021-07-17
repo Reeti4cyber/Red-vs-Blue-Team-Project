@@ -326,14 +326,7 @@ source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_
 - In the brute force attack 16,074 attempts were made.
 - Out of 16,074 attempts, 1 last one was successful.
  
- Following query on the kibana returns the required result:
- 
-``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  ```
-
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3bfattack.png)
- 
-
-#### For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
+ #### For these type of activities where the attacker tries to brute force the password, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
  
          - Set a critical alert if the user_agent.original value includes 'Hydra'.
@@ -354,7 +347,7 @@ source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_
 
 ```source.ip : 192.168.1.90 AND url.path: "/webdav" ```
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdav.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/WebdavRequest.png)
 
 - Total 7 requests were made to the webdav folder.
 
@@ -365,7 +358,7 @@ source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_
 
 ```source.ip : 192.168.1.90 AND url.path: "/webdav/shell.php"  AND http.response.status_code: 201```
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3webdavshell.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/shellsuccess.png)
 
 #### For these type of activities where the attacker tries to access the webdav server, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
