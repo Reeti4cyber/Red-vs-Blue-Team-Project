@@ -281,7 +281,7 @@ source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND user_agent.original
 source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"    AND http.request.method: "get" AND http.response.status_code :401
 
 ```
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/HiddenDirectory.png)
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/HiddenDirectory..png)
  
   ```
 source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"  AND http.response.status_code :200
