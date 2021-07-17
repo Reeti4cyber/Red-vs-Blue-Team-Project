@@ -384,7 +384,7 @@ Since the listener is set on our machine, our machine will become destination an
 
 ```source.ip : 192.168.1.105 AND destination.ip: 192.168.1.90 AND destination.port:4444```
 
-![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/meterpreter.png)
+![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/meterpreter1.png)
 
 #### For these type of activities where the reverse shell is uploaded, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
