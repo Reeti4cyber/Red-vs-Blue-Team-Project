@@ -278,15 +278,20 @@ source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND user_agent.original
 
  To look at the interaction between these two machines, when attack happened and secret folder was found following command was executed:
 ```
-source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
-```
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/D32.png)
- 
-  
-  
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"    AND http.request.method: "get" AND http.response.status_code :401
 
-- There were `16,074` requests  made to this directory from `source ip 192.168.1.90` on July 11, 2021.
-- There is a `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/HiddenDirectory.png)
+ 
+  ```
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"  AND http.response.status_code :200
+
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Successsecretfolder.png)
+ 
+
+
+- There was `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
 - For these type of activities where the attacker tries to attack a hidden directory setting following alarms an mitigation strategies are recommended:
  - #### Alarm 
  
@@ -319,11 +324,11 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
    ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3hydra2.png)
  
 - In the brute force attack 16,074 attempts were made.
-- Out of 16,074 attempts, 5 were successful.
+- Out of 16,074 attempts, 1 last one was successful.
  
  Following query on the kibana returns the required result:
  
-``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  AND http.response.status_code : 301```
+``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  ```
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3bfattack.png)
  
@@ -382,7 +387,8 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 
 ###  Identify the reverse shell and meterpreter traffic.
 
-Since the listener is set on our machine, our machine will become detination and the victim machine will become source. Hence the query that will use on Kibana to interpret meterpreter traffic is:
+Since the listener is set on our machine, our machine will become destination and the victim machine will become source. Hence the query that will use on Kibana to interpret meterpreter traffic is:
+
 ```source.ip : 192.168.1.105 AND destination.ip: 192.168.1.90 AND destination.port:4444```
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/meterpreter.png)
