@@ -184,7 +184,7 @@ Using msfvenom we created a payload – shell.php
  
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2019.png)
   
-#### ** Metasploit-Seting up a Listener**
+#### **Metasploit-Setting up a Listener**
  
  Once the payload is uploaded, its time to set up a listener on our Kali machine. I used Metasploit for this task. Metasploit is a tool suite (a program comprised of multiple tools) for hacking servers and other networked devices. The main tools I used for this task are:
 
@@ -255,17 +255,18 @@ Then I used the ``cat flag.txt`` command to read the contents of the flag.txt fi
  ## **Incident Analysis with Kibana**
  
 ### Identify the offensive traffic.
+#### Nmap scan.
 
-To Identify the traffic between my machine and the web machine, following query was entered in Kibana:
+For nmap scan  between my machine and the web machine, following query was entered in Kibana:
 
 ```
-source.ip : 192.168.1.90 AND destination.ip:192.168.1.105  
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND user_agent.original :"Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)" 
 ```
 
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d31.png)
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Nmap.png)
  
- - The  interaction occured at ``23:59 on July 11, 2021``
- - The victim sent back the response as ``ok http.response.status_code 200``
+ - The  interaction occured at ``09:00 on July 12, 2021``
+
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/q1.3.png)
   
