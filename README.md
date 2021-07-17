@@ -184,7 +184,7 @@ Using msfvenom we created a payload – shell.php
  
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Image%2019.png)
   
-#### ** Metasploit-Seting up a Listener**
+#### **Metasploit-Setting up a Listener**
  
  Once the payload is uploaded, its time to set up a listener on our Kali machine. I used Metasploit for this task. Metasploit is a tool suite (a program comprised of multiple tools) for hacking servers and other networked devices. The main tools I used for this task are:
 
@@ -255,17 +255,18 @@ Then I used the ``cat flag.txt`` command to read the contents of the flag.txt fi
  ## **Incident Analysis with Kibana**
  
 ### Identify the offensive traffic.
+#### Nmap scan.
 
-To Identify the traffic between my machine and the web machine, following query was entered in Kibana:
+For nmap scan  between my machine and the web machine, following query was entered in Kibana:
 
 ```
-source.ip : 192.168.1.90 AND destination.ip:192.168.1.105  
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND user_agent.original :"Mozilla/5.0 (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html)" 
 ```
 
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d31.png)
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Nmap.png)
  
- - The  interaction occured at ``23:59 on July 11, 2021``
- - The victim sent back the response as ``ok http.response.status_code 200``
+ - The  interaction occured at ``09:00 on July 12, 2021``
+
  
   ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/q1.3.png)
   
@@ -277,20 +278,31 @@ source.ip : 192.168.1.90 AND destination.ip:192.168.1.105
 
  To look at the interaction between these two machines, when attack happened and secret folder was found following command was executed:
 ```
-source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
-```
- ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/D32.png)
- 
-   
-  
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"    AND http.request.method: "get" AND http.response.status_code :401
 
-- There were `16,074` requests  made to this directory from `source ip 192.168.1.90` on July 11, 2021.
-- There is a `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/HiddenDirectory.png)
+ 
+  ```
+source.ip:192.168.1.90 AND destination.ip: 192.168.1.105 AND url.path:"/company_folders/secret_folder"  AND http.response.status_code :200
+
+```
+ ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/Successsecretfolder.png)
+ 
+
+
+- There was `secret_folder`inside the company_folder that contained instructions to access the `webdav server` using CEO Ryan's credentials. Password also had hashed password, which I cracked using Crack station. 
 - For these type of activities where the attacker tries to attack a hidden directory setting following alarms an mitigation strategies are recommended:
  - #### Alarm 
-         - Set a low level alarm for more than 3 password failures.
-         - Set a critical alarm for more than 5 password failures. 
+ 
+         - Set an alarm if there is an excessive amount of traffic to the hidden directory.
+         - Any sudden surge in traffic requesting hidden file should be alarming.
+         - Set an alarm if an unknown IP address is trying to access the hidden directory.
+
+
   - #### System Hardening
+  
+         - Turn off the directory listing.
          - Remove the directory and file from the server and move it to some safe or offline location. 
          - Remove all reference to this secret directory. 
          - Create multi-factor authentication for all priviliged accounts.
@@ -312,11 +324,11 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
    ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3hydra2.png)
  
 - In the brute force attack 16,074 attempts were made.
-- Out of 16,074 attempts, 5 were successful.
+- Out of 16,074 attempts, 1 last one was successful.
  
  Following query on the kibana returns the required result:
  
-``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  AND http.response.status_code : 301```
+``` source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder" AND user_agent.original : "Mozilla/4.0 (Hydra)"  ```
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/d3bfattack.png)
  
@@ -326,6 +338,8 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
  
          - Set a critical alert if the user_agent.original value includes 'Hydra'.
          - Set a critical alert in case any server returns '401 Unauthorized'. 
+         - Set a low level alarm for more than 3 password failures.
+         - Set a critical alarm for more than 5 password failures. 
 
 - - #### System Hardening
   
@@ -333,6 +347,8 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
          - Black list the IP that has a request containing 'Hydra'  in user_agent.original'. 
          - Create multi-factor authentication for all priviliged accounts.
          - Lock out the user attempting to send such requests.
+         - Set up fail2ban.conf and jail.conf files found in /etc folder.
+
 
 ### WebDav connection.
 
@@ -354,36 +370,47 @@ source.ip : 192.168.1.90 AND url.path: "/company_folders/secret_folder"
 #### For these type of activities where the attacker tries to access the webdav server, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
  
-         - Set an  alert in case any unauthorized machine/IP tries to access this directory.
-         - Set an threshhold to 1 for this alert. 
+         - Set an  alert in case any unauthorized machine/IP tries to access to the webserver.
+         - Set an alert any user access the web server.
+         - Set a threshold to 1 for this alert. 
+         - Set an  alert in case of any outbound traffic from the server.
 
 - - #### System Hardening
   
          - Disable weddav on the server.
          - This folder should not be accessible via webinterface.
          - Configure firewall to restrict the access to this folder.
+               - Add an access list of IP’s , users and devices.
+               - Add a rule to block unknown Ip’s and users.
          - All the files that have description of this folder should be moved to safer location and should be encrypted.
-
+         - Add a strong password and enforce multi factor authentication to access this server.
 
 ###  Identify the reverse shell and meterpreter traffic.
 
-Since the listener is set on our machine, our machine will become detination and the victim machine will become source. Hence the query that will use on Kibana to interpret meterpreter traffic is:
+Since the listener is set on our machine, our machine will become destination and the victim machine will become source. Hence the query that will use on Kibana to interpret meterpreter traffic is:
+
 ```source.ip : 192.168.1.105 AND destination.ip: 192.168.1.90 AND destination.port:4444```
 
 ![alt-text](https://github.com/Reeti4cyber/Red-vs-Blue-Team-Project/blob/main/Images/meterpreter.png)
 
 #### For these type of activities where the reverse shell is uploaded, following alarms an mitigation strategies are recommended:
  - - #### Alarm 
- 
-         - Set an  alert in case any traffic comes through lport 4444.
-         - Set an alert if any .php file is uploaded to a server. 
+                 
          - Set an alert for any file that contains suspicious or malicious code.
+         - Set an alarm if any file is created or uploaded on the server.
+         - Set an alarm if any file with extension .php is detected or any the script is detected.
+         - Set an alarm if any new outbound connection to a new port is detected.
+
 
 - - #### System Hardening
   
          - Screen all incoming traffic.
          - Restrict uploading .php files.
          - Setup automatic updates.
+         - Create add/ deny list for IPs trying to     access port 4444.
+         - Add a rule to firewall to block traffic on any port from the tools such as Meterpreter. 
+
+
          
 
 
